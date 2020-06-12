@@ -47,6 +47,7 @@ class Res101_SFCN(nn.Module):
 
         # pdb.set_trace()
         x = self.backend(x)
+        import IPython; IPython.embed()
         x = self.convDU(x)
         x = self.convLR(x)
         x = self.output_layer(x)
