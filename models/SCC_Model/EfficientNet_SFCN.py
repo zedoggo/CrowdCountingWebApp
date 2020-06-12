@@ -26,7 +26,7 @@ class EfficientNet_SFCN(nn.Module):
         self.convLR = convLR(in_out_channels=1280,kernel_size=(9,1))
 
         # Final linear layer
-        self.output_layer = nn.Sequential(nn.Conv2d(64, 1, kernel_size=1),nn.ReLU())
+        self.output_layer = nn.Sequential(nn.Conv2d(1280, 1, kernel_size=1),nn.ReLU())
 
         # import IPython; IPython.embed()
 
