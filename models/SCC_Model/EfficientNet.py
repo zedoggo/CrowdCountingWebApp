@@ -14,9 +14,7 @@ from efficientnet_pytorch import EfficientNet
 # model_path = '../PyTorch_Pretrained/resnet101-5d3b4d8f.pth'
 
 GlobalParams = collections.namedtuple('GlobalParams', [
-    'width_coefficient', 'depth_coefficient', 'image_size', 'dropout_rate',
-    'num_classes', 'batch_norm_momentum', 'batch_norm_epsilon',
-    'drop_connect_rate', 'depth_divisor', 'min_depth'])
+    'num_classes'])
 
 class EfficientNet(nn.Module):
     def __init__(self, pretrained=True):
