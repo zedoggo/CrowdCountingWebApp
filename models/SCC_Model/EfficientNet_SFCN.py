@@ -15,9 +15,9 @@ from efficientnet_pytorch import EfficientNet
 
 
 
-class EfficientNet(nn.Module):
+class EfficientNet_SFCN(nn.Module):
     def __init__(self, pretrained=True):
-        super(EfficientNet, self).__init__() 
+        super(EfficientNet_SFCN, self).__init__() 
         self.seen = 0
         import IPython; IPython.embed()
         self.res = EfficientNet.from_pretrained('efficientnet-b0') #perlu tambahin function from_pretrained?

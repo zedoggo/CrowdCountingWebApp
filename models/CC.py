@@ -23,8 +23,8 @@ class CrowdCounter(nn.Module):
             from .SCC_Model.Res101 import Res101 as net            
         elif model_name == 'Res101_SFCN':
             from .SCC_Model.Res101_SFCN import Res101_SFCN as net
-        elif model_name == 'EfficientNet':
-            from .SCC_Model.EfficientNet import EfficientNet as net
+        elif model_name == 'EfficientNet_SFCN':
+            from .SCC_Model.EfficientNet_SFCN import EfficientNet_SFCN as net
 
         self.CCN = net()
         if len(gpus)>1:
