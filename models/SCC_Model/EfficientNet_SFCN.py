@@ -21,7 +21,7 @@ class EfficientNet_SFCN(nn.Module):
         self.seen = 0
         
         self.res = EfficientNet.from_pretrained('efficientnet-b0') #perlu tambahin function from_pretrained?
-        import IPython; IPython.embed()
+        
         self.convDU = convDU(in_out_channels=64,kernel_size=(1,9))
         self.convLR = convLR(in_out_channels=64,kernel_size=(9,1))
 
@@ -34,7 +34,7 @@ class EfficientNet_SFCN(nn.Module):
         x = self.res.extract_features(x)
 
         # pdb.set_trace()
-
+        import IPython; IPython.embed()
         x = self.convDU(x)
         x = self.convLR(x)
         x = self.output_layer(x)
