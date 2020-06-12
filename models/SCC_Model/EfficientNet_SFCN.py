@@ -42,5 +42,5 @@ class EfficientNet_SFCN(nn.Module):
         x = self.convLR(x)
         x = self.output_layer(x)
 
-        x = F.upsample(x,scale_factor=2)
+        x = F.upsample(x,scale_factor=16)
         return x
