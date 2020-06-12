@@ -39,7 +39,7 @@ class CrowdCounter(nn.Module):
     
     def forward(self, img, gt_map):                               
         density_map = self.CCN(img)                          
-        import IPython; IPython.embed()
+        # import IPython; IPython.embed()
         self.loss_mse= self.build_loss(density_map.squeeze(), gt_map.squeeze())               
         return density_map
     
