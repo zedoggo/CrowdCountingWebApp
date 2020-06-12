@@ -19,9 +19,9 @@ class EfficientNet_SFCN(nn.Module):
     def __init__(self, pretrained=True):
         super(EfficientNet_SFCN, self).__init__() 
         self.seen = 0
-        import IPython; IPython.embed()
-        self.res = EfficientNet.from_pretrained('efficientnet-b0') #perlu tambahin function from_pretrained?
         
+        self.res = EfficientNet.from_pretrained('efficientnet-b0') #perlu tambahin function from_pretrained?
+        import IPython; IPython.embed()
         self.convDU = convDU(in_out_channels=64,kernel_size=(1,9))
         self.convLR = convLR(in_out_channels=64,kernel_size=(9,1))
 
