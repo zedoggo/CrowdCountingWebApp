@@ -13,8 +13,7 @@ from efficientnet_pytorch import EfficientNet
 
 # model_path = '../PyTorch_Pretrained/resnet101-5d3b4d8f.pth'
 
-GlobalParams = collections.namedtuple('GlobalParams', [
-    'num_classes'])
+
 
 class EfficientNet(nn.Module):
     def __init__(self, pretrained=True):
@@ -27,8 +26,7 @@ class EfficientNet(nn.Module):
         self.convLR = convLR(in_out_channels=64,kernel_size=(9,1))
 
         # Final linear layer
-        self._dropout = self._global_params.dropout_rate
-        self.output_layer = nn.Linear(out_channels, self._global_params.num_classes)
+        self.output_layer = nn.Sequential(nn.Conv2d(64, 1, kernel_size=1),nn.ReLU())
 
         # import IPython; IPython.embed()
 
