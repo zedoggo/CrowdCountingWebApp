@@ -22,11 +22,12 @@ class EfficientNet_SFCN(nn.Module):
         
         self.res = EfficientNet.from_pretrained('efficientnet-b0') #perlu tambahin function from_pretrained?
         
-        self.convDU = convDU(in_out_channels=1280,kernel_size=(1,9))
-        self.convLR = convLR(in_out_channels=1280,kernel_size=(9,1))
+        self.convOut = nn.Sequential(nn.Conv2d(1280, 64, kernel_size=1),nn.ReLU())
+        self.convDU = convDU(in_out_channels=64,kernel_size=(1,9))
+        self.convLR = convLR(in_out_channels=64,kernel_size=(9,1))
 
         # Final linear layer
-        self.output_layer = nn.Sequential(nn.Conv2d(1280, 1, kernel_size=1),nn.ReLU())
+        self.output_layer = nn.Sequential(nn.Conv2d(64, 1, kernel_size=1),nn.ReLU())
 
         # import IPython; IPython.embed()
 
@@ -35,6 +36,8 @@ class EfficientNet_SFCN(nn.Module):
 
         # pdb.set_trace()
         import IPython; IPython.embed()
+
+        x = self.convOut(x)
         x = self.convDU(x)
         x = self.convLR(x)
         x = self.output_layer(x)
