@@ -35,7 +35,7 @@ class EfficientNet_SFCN(nn.Module):
         x = self.res.extract_features(x)
 
         # pdb.set_trace()
-        # import IPython; IPython.embed()
+        import IPython; IPython.embed()
 
         x = self.convOut(x)
         x = self.convDU(x)
