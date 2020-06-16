@@ -22,6 +22,10 @@ class EfficientNet_SFCN(nn.Module):
         
         self.res = EfficientNet.from_pretrained('efficientnet-b1') #perlu tambahin function from_pretrained?
         
+        self.frontend = nn.Sequential(
+            self.res._conv_stem, self.res._bn0, self.res._swish
+        )
+
         self.convOut = nn.Sequential(nn.Conv2d(1280, 64, kernel_size=1),nn.ReLU())
         self.convDU = convDU(in_out_channels=64,kernel_size=(1,9))
         self.convLR = convLR(in_out_channels=64,kernel_size=(9,1))
@@ -33,6 +37,13 @@ class EfficientNet_SFCN(nn.Module):
 
     def forward(self,x):
         x = self.res.extract_features(x)
+        x = self.frontend(x)
+
+        for idx in range(22):            
+            drop_connect_rate = self.res._global_params.drop_connect_rate
+            if drop_connect_rate:
+                drop_connect_rate *= float(idx) / len(self.res._blocks) # scale drop connect_rate
+            x = self.res._blocks[idx](x, drop_connect_rate=drop_connect_rate)
 
         # pdb.set_trace()
         import IPython; IPython.embed()
