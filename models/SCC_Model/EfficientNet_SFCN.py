@@ -36,7 +36,7 @@ class EfficientNet_SFCN(nn.Module):
         # import IPython; IPython.embed()
 
     def forward(self,x):
-        x = self.res.extract_features(x)
+        # x = self.res.extract_features(x)
         x = self.frontend(x)
 
         for idx in range(22):            
