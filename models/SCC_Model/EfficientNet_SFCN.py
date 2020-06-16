@@ -20,7 +20,7 @@ class EfficientNet_SFCN(nn.Module):
         super(EfficientNet_SFCN, self).__init__() 
         self.seen = 0
         
-        self.res = EfficientNet.from_pretrained('efficientnet-b1') #perlu tambahin function from_pretrained?
+        self.res = EfficientNet.from_pretrained('efficientnet-b7') #perlu tambahin function from_pretrained?
         
         self.frontend = nn.Sequential(
             self.res._conv_stem, self.res._bn0, self.res._swish
