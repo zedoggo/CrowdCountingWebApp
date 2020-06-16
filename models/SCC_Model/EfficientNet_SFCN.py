@@ -26,7 +26,7 @@ class EfficientNet_SFCN(nn.Module):
             self.res._conv_stem, self.res._bn0, self.res._swish
         )
 
-        self.convOut = nn.Sequential(nn.Conv2d(80, 64, kernel_size=1),nn.ReLU())
+        self.convOut = nn.Sequential(nn.Conv2d(40, 64, kernel_size=1),nn.ReLU())
         self.convDU = convDU(in_out_channels=64,kernel_size=(1,9))
         self.convLR = convLR(in_out_channels=64,kernel_size=(9,1))
 
