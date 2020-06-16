@@ -20,7 +20,7 @@ class EfficientNet_SFCN(nn.Module):
         super(EfficientNet_SFCN, self).__init__() 
         self.seen = 0
         
-        self.res = EfficientNet.from_pretrained('efficientnet-b5') #perlu tambahin function from_pretrained?
+        self.res = EfficientNet.from_pretrained('efficientnet-b1') #perlu tambahin function from_pretrained?
         
         self.convOut = nn.Sequential(nn.Conv2d(1280, 64, kernel_size=1),nn.ReLU())
         self.convDU = convDU(in_out_channels=64,kernel_size=(1,9))
@@ -43,4 +43,4 @@ class EfficientNet_SFCN(nn.Module):
         x = self.output_layer(x)
 
         x = F.upsample(x,scale_factor=32)
-        return x
+        return x    
