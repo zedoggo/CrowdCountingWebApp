@@ -39,7 +39,7 @@ class EfficientNet_SFCN(nn.Module):
         # x = self.res.extract_features(x)
         x = self.frontend(x)
 
-        for idx in range(8):            
+        for idx in range(18):            
             drop_connect_rate = self.res._global_params.drop_connect_rate
             if drop_connect_rate:
                 drop_connect_rate *= float(idx) / len(self.res._blocks) # scale drop connect_rate
