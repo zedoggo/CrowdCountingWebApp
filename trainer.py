@@ -9,6 +9,7 @@ from models.CC import CrowdCounter
 from config import cfg
 from misc.utils import *
 import pdb
+import csv
 
 
 class Trainer():
