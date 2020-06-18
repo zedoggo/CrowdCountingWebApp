@@ -107,7 +107,7 @@ class Trainer():
                 # nge write epoch, iter, loss, waktu(time) juga         
 
                 training_iter_time = self.timer['iter time'].diff
-                csvRow = [number_of_epoch, iteration, training_loss, iteration_time]
+                csvRow = ['number_of_epoch', 'iteration', 'training_loss', 'iteration_time']
                 csvFile = "training_result.csv"
                 with open(csvfile, "w") as fp:
                     wr = csv.writer(fp, dialect='excel') 
@@ -159,7 +159,7 @@ class Trainer():
         print_summary(self.exp_name,[mae, mse, loss],self.train_record)
 
         # loss, mae, mse
-        csvRow = [mae_value, mse_value, validation_loss]
+        csvRow = ['mae_value', 'mse_value', 'validation_loss']
         csvFile = "validation_result.csv"
         with open(csvfile, "w") as fp:
             wr = csv.writer(fp, dialect='excel')
