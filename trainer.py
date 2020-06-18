@@ -102,7 +102,17 @@ class Trainer():
                 print( '[ep %d][it %d][loss %.4f][lr %.4f][%.2fs]' % \
                         (self.epoch + 1, i + 1, loss.item(), self.optimizer.param_groups[0]['lr']*10000, self.timer['iter time'].diff) )
                 print( '        [cnt: gt: %.1f pred: %.2f]' % (gt_map[0].sum().data/self.cfg_data.LOG_PARA, pred_map[0].sum().data/self.cfg_data.LOG_PARA) )           
+                
+                # nge write ke .csv file inline (ada 2, 1 training, 1 validasi dibawah )
+                # nge write epoch, iter, loss, waktu(time) juga         
 
+                training_iter_time = self.timer['iter time'].diff
+                csvRow = [epoch, iteration, train_loss, time]
+                csvFile = "training_result.csv"
+                with open(csvfile, "w") as fp:
+                    wr = csv.writer(fp, dialect='excel') 
+                    wr.writerow(csvRow)
+                    wr.writerow([self.epoch + 1, i + 1, loss.item(), training_iter_time]) 
 
     def validate_V1(self):# validate_V1 for SHHA, SHHB, UCF-QNRF, UCF50
 
@@ -148,6 +158,13 @@ class Trainer():
             [mae, mse, loss],self.train_record,self.log_txt)
         print_summary(self.exp_name,[mae, mse, loss],self.train_record)
 
+        # loss, mae, mse
+        csvRow = [mae, mse, val_loss]
+        csvFile = "validation_result.csv"
+        with open(csvfile, "w") as fp:
+            wr = csv.writer(fp, dialect='excel')
+            wr.writerow(csvRow)
+            wr.writerow([mae, mse, loss])
 
     def validate_V2(self):# validate_V2 for WE
 
