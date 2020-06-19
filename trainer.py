@@ -110,7 +110,7 @@ class Trainer():
                 training_iter_time = self.timer['iter time'].diff
                 csvRow = ['number_of_epoch', 'iteration', 'training_loss', 'iteration_time']
                 csvFile = "training_result.csv"
-                with open(csvFile, 'w') as fp:
+                with open(csvFile, 'a') as fp:
                     wr = csv.writer(fp, dialect='excel') 
                     wr.writerow(csvRow)
                     wr.writerow([self.epoch + 1, i + 1, loss.item(), training_iter_time]) 
@@ -162,7 +162,7 @@ class Trainer():
         # loss, mae, mse
         csvRow = ['mae_value', 'mse_value', 'validation_loss']
         csvFile = "validation_result.csv"
-        with open(csvFile, 'w') as fp:
+        with open(csvFile, 'a') as fp:
             wr = csv.writer(fp, dialect='excel')
             wr.writerow(csvRow)
             wr.writerow([mae, mse, loss])
