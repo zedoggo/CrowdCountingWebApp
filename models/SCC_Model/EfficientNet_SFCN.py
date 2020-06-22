@@ -46,7 +46,7 @@ class EfficientNet_SFCN(nn.Module):
             x = self.res._blocks[idx](x, drop_connect_rate=drop_connect_rate)
 
         # pdb.set_trace()
-        import IPython; IPython.embed()
+        # import IPython; IPython.embed()
 
         x = self.convOut(x)
         x = self.convDU(x)
