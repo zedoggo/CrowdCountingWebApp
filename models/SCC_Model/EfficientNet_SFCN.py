@@ -26,7 +26,7 @@ class EfficientNet_SFCN(nn.Module):
         #     self.res._conv_stem, self.res._bn0, self.res._swish
         # )
 
-        self.convOut = nn.Sequential(nn.Conv2d(1280, 64, kernel_size=1),nn.ReLU())
+        self.convOut = nn.Sequential(nn.Conv2d(2560, 64, kernel_size=1),nn.ReLU())
         self.convDU = convDU(in_out_channels=64,kernel_size=(1,9))
         self.convLR = convLR(in_out_channels=64,kernel_size=(9,1))
 
@@ -53,5 +53,5 @@ class EfficientNet_SFCN(nn.Module):
         x = self.convLR(x)
         x = self.output_layer(x)
 
-        x = F.upsample(x,scale_factor=16)
+        x = F.upsample(x,scale_factor=32)
         return x    
