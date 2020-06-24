@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+  	<!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+	
+	<title>Crowd Counting Skripsi</title>
+  </head>
+
+  <body>
+    <nav class="navbar navbar-dark bg-dark">
+        <br>
+        <div class="container">
+            <a class="navbar-brand" href="#">
+            	<b>Real Time Surveillance Video</b>
+        	</a>
+        </div>
+    </nav>
+    <br>
+
+	<div class="container" style="background-color: #aec6cf">
+		<br>
+		<div class="row">
+			<div class="col" style="margin-left: 10px">
+				<img id="bg" src="{{ url_for('video_feed') }}">
+			</div>
+	    	<div class="col">
+	    		<h5 id="number_of_people">
+					Number of People: 
+			    </h5>
+				<br><br>
+				<h5 id="frames_per_second">
+					Frames per Second:
+			    </h5>
+			    <!-- {{ frame_rate }} -->
+				<br><br>
+	    	</div>
+	 	</div>
+	 	<br>
+	</div>
+  </body>
+
+</html>
