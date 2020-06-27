@@ -17,12 +17,14 @@ import torch
 import torch.nn as nn
 import torch.nn.functional as F
 
-from models.SCC_Model.EfficientNet_SFCN import EfficientNet_SFCN as net
+# from models.SCC_Model.EfficientNet_SFCN import EfficientNet_SFCN as net
+from models.SCC_Model.Res101_FPN import Res101_FPN as net
 from models.CC import CrowdCounter
 
-CCN = CrowdCounter([0],'EfficientNet_SFCN')
+CCN = CrowdCounter([0],'Res101_FPN')
 # density_map = CCN(img)
-CCN.load_state_dict(torch.load('models/all_ep_171_mae_11.6_mse_19.7.pth'))  # EfficientNet-b7 Modified - 200 Epoch (EfficientNet_SFCN)
+# CCN.load_state_dict(torch.load('models/all_ep_171_mae_11.6_mse_19.7.pth'))  # EfficientNet-b7 Modified - 200 Epoch (EfficientNet_SFCN)
+CCN.load_state_dict(torch.load('models/fpncc_shhb.pth'))  # FPNCC - 200 Epoch (Res101_FPN)
 print("Model successfully loaded")
 
 from flask import Flask, render_template, Response
