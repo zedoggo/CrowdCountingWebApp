@@ -11,30 +11,37 @@ class VideoCamera(object):
         # as the main.py.
         # self.video = cv2.VideoCapture('video.mp4')
     
-        fps = self.video.get(cv2.CAP_PROP_FPS)
-        print("Frames per second using video.get(cv2.CAP_PROP_FPS) : {0} fps".format(fps))
+        # fps = self.video.get(cv2.CAP_PROP_FPS)
+        # print("Frames per second using video.get(cv2.CAP_PROP_FPS) : {0} fps".format(fps))
 
-        # # Number of frames to capture
-        # num_frames = 120;
+        # Number of frames to capture
+        num_frames = 120;
         
-        # print("Capturing {0} frames".format(num_frames))
-
-        # # Start time
-        # start = time.time()
         
-        # # End time
-        # end = time.time()
+        print("Capturing {0} frames".format(num_frames))
 
-        # # Time elapsed
-        # seconds = end - start
-        # print("Time taken : {0} seconds".format(seconds))
+        # Start time
+        start = time.time()
+        
+        # Grab a few frames
+        for i in range(0, num_frames):
+            ret, frame = self.video.read()
 
-        # # Calculate frames per second
-        # fps  = num_frames / seconds;
-        # print("Estimated frames per second : {0}".format(fps))
+        
+        # End time
+        end = time.time()
 
-        # frame_count = int(self.video.get(cv2.CAP_PROP_FRAME_COUNT))
-        # print("Estimated frame rate : {0}".format(frame_count))
+        # Time elapsed
+        seconds = end - start
+        print("Time taken : {0} seconds".format(seconds))
+
+        # Calculate frames per second
+        fps = num_frames / seconds
+        print("Estimated frames per second : {0}".format(fps))
+
+        cv2.putText(frame, text=("Frame Rate: {0} fps".format(fps)),
+                org=(3, 15), fontFace=cv2.FONT_HERSHEY_SIMPLEX,
+                fontScale=1, color=(255, 0, 0), thickness=2)
 
     def __del__(self):
         self.video.release()
