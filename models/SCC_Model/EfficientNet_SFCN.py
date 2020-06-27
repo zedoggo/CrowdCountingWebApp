@@ -21,13 +21,13 @@ class EfficientNet_SFCN(nn.Module):
         super(EfficientNet_SFCN, self).__init__() 
         self.seen = 0
         
-        self.res = EfficientNet.from_pretrained('efficientnet-b1') #perlu tambahin function from_pretrained?
+        self.res = EfficientNet.from_pretrained('efficientnet-b7') #perlu tambahin function from_pretrained?
         
-        # self.frontend = nn.Sequential(
-        #     self.res._conv_stem, self.res._bn0, self.res._swish
-        # )
+        self.frontend = nn.Sequential(
+            self.res._conv_stem, self.res._bn0, self.res._swish
+        )
 
-        self.convOut = nn.Sequential(nn.Conv2d(1280, 64, kernel_size=1),nn.ReLU())
+        self.convOut = nn.Sequential(nn.Conv2d(80, 64, kernel_size=1),nn.ReLU())
         self.convDU = convDU(in_out_channels=64,kernel_size=(1,9))
         self.convLR = convLR(in_out_channels=64,kernel_size=(9,1))
 
@@ -37,14 +37,14 @@ class EfficientNet_SFCN(nn.Module):
         # import IPython; IPython.embed()
 
     def forward(self,x):
-        x = self.res.extract_features(x)
-        # x = self.frontend(x)
+        # x = self.res.extract_features(x)
+        x = self.frontend(x)
 
-        # for idx in range(18):            
-        #     drop_connect_rate = self.res._global_params.drop_connect_rate
-        #     if drop_connect_rate:
-        #         drop_connect_rate *= float(idx) / len(self.res._blocks) # scale drop connect_rate
-        #     x = self.res._blocks[idx](x, drop_connect_rate=drop_connect_rate)
+        for idx in range(18):            
+            drop_connect_rate = self.res._global_params.drop_connect_rate
+            if drop_connect_rate:
+                drop_connect_rate *= float(idx) / len(self.res._blocks) # scale drop connect_rate
+            x = self.res._blocks[idx](x, drop_connect_rate=drop_connect_rate)
 
         # pdb.set_trace()
         # import IPython; IPython.embed()
@@ -54,5 +54,5 @@ class EfficientNet_SFCN(nn.Module):
         x = self.convLR(x)
         x = self.output_layer(x)
 
-        x = F.upsample(x,scale_factor=32)
+        x = F.upsample(x,scale_factor=8)
         return x    

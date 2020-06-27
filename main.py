@@ -18,11 +18,11 @@ import torch.nn as nn
 import torch.nn.functional as F
 
 from models.SCC_Model.EfficientNet_SFCN import EfficientNet_SFCN as net
+from models.CC import CrowdCounter
 
-CCN = net()
-# model = CCN.load() 
+CCN = CrowdCounter([0],'EfficientNet_SFCN')
 # density_map = CCN(img)
-torch.load('models/all_ep_87_mae_15.6_mse_24.7.pth')
+CCN.load_state_dict(torch.load('models/all_ep_171_mae_11.6_mse_19.7.pth'))  # EfficientNet-b7 Modified - 200 Epoch (EfficientNet_SFCN)
 print("Model successfully loaded")
 
 from flask import Flask, render_template, Response
@@ -50,7 +50,7 @@ def gen(camera):
         # end time
         # interval
         # fps = 1/interval
-        yield fps, (b'--frame\r\n'
+        yield (b'--frame\r\n'
                b'Content-Type: image/jpeg\r\n\r\n' + frame + b'\r\n\r\n')
 
 
