@@ -129,7 +129,8 @@ class Res101_FPN(nn.Module):
         x = torch.squeeze(torch.stack([x2ups, x3ups, x4ups], dim=1), dim=2)
         x = self.de_pred(x)
 
-        return x, x2ups, x3ups, x4ups
+        # return x, x2ups, x3ups, x4ups
+        return x
 
     def _initialize_weights(self):
         for m in self.modules():

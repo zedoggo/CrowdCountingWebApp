@@ -11,7 +11,7 @@
 
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 	
-	<title>Crowd Counting Skripsi</title>
+	<title>Crowd Counting Website</title>
   </head>
 
   <body>
@@ -19,31 +19,19 @@
         <br>
         <div class="container">
             <a class="navbar-brand" href="#">
-            	<b>Real Time Surveillance Video</b>
+            	<b>Surveillance Video Feed</b>
         	</a>
         </div>
     </nav>
     <br>
 
-	<div class="container" style="background-color: #aec6cf">
+	<div class="container" style="background-color: #aec6cf; width: 60%">
 		<br>
-		<div class="row">
-			<div class="col" style="margin-left: 10px">
-				<img id="bg" src="{{ url_for('video_feed') }}">
-			</div>
-	    	<div class="col">
-	    		<h5 id="number_of_people">
-					Number of People: 
-			    </h5>
-				<br><br>
-				<h5 id="frames_per_second">
-					Frame Rate:
-			    </h5>
-			    {{ fps }}
-				<br><br>
-	    	</div>
+	 	<div class="d-flex justify-content-center">
+	 		<img id="bg" src="{{ url_for('video_feed') }}">
 	 	</div>
 	 	<br>
+	</div>
 	</div>
   </body>
 
