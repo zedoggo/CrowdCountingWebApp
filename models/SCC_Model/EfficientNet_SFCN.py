@@ -21,7 +21,7 @@ class EfficientNet_SFCN(nn.Module):
         super(EfficientNet_SFCN, self).__init__() 
         self.seen = 0
         
-        self.res = EfficientNet.from_pretrained('efficientnet-b7') #perlu tambahin function from_pretrained?
+        self.res = EfficientNet.from_pretrained('efficientnet-b7')
         
         self.frontend = nn.Sequential(
             self.res._conv_stem, self.res._bn0, self.res._swish
@@ -40,11 +40,21 @@ class EfficientNet_SFCN(nn.Module):
         # x = self.res.extract_features(x)
         x = self.frontend(x)
 
-        for idx in range(18):            
+        for idx in range(18):   # cutting layer (harusnya 18)     
             drop_connect_rate = self.res._global_params.drop_connect_rate
             if drop_connect_rate:
                 drop_connect_rate *= float(idx) / len(self.res._blocks) # scale drop connect_rate
             x = self.res._blocks[idx](x, drop_connect_rate=drop_connect_rate)
+
+        # shapenya dibandingin sama architecturenya and mainin scaling lebih rendah 
+        # -> hasilnya lebih accurate (mae & mse ,efficient) jadi upsample tidak terlalu besar
+        # untuk mencapai shape yang sama antara input and output
+        # klo scale factor lebih besar = error lebih besar 
+        # karena terlalu maksa untuk dibesarkan
+
+        #kenapa cutting b7?
+        # cutting layer b1 layersnya jadinya terlalu sedikit
+
 
         # pdb.set_trace()
         # import IPython; IPython.embed()

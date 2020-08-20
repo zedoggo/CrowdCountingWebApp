@@ -29,7 +29,7 @@ import csv
 
 from PIL import Image
 
-#EfficientNet-b7
+# EfficientNet-b7
 from models.SCC_Model.EfficientNet_SFCN import EfficientNet_SFCN as net
 from models.CC import CrowdCounter
 CCN = CrowdCounter([0],'EfficientNet_SFCN')
@@ -95,6 +95,13 @@ def index():
 #             fps = frames_to_read/seconds
 #             print(fps)
 
+#             # Write Crowd Counting Result to CSV File
+#             csvFile = "crowd_counting_result.csv"
+#             with open(csvFile, 'a') as fp:
+#                 wr = csv.writer(fp)
+#                 wr.writerow([count])
+#                 wr.writerow([fps])
+
 #         yield (b'--frame\r\n'
 #                b'Content-Type: image/jpeg\r\n\r\n' + frame + b'\r\n\r\n')
 
@@ -102,22 +109,23 @@ def index():
 def gen(camera):
     frames_to_read = 13 # max frames_to_read = 13
     i = 0
-    images = []
+    images = [] # type nya list
+    # import pdb; pdb.set_trace()
 
     while True:
         if i%frames_to_read==0:
             start = time.time()
             images = [] 
         
-        frame, image = camera.get_frame()   # numpy array
+        frame, image = camera.get_frame()   # 1. numpy array
 
         img_transform = standard_transforms.Compose([
-            standard_transforms.Resize((240,320)),      # Resize PIL
-            standard_transforms.ToTensor(),             # convert PIL -> tensor
-            standard_transforms.Normalize(*mean_std)    # normalize numpy array
+            standard_transforms.Resize((240,320)),      # 3. Resize PIL
+            standard_transforms.ToTensor(),             # 4. convert PIL -> tensor
+            standard_transforms.Normalize(*mean_std)    # 5. normalize numpy array
         ])
 
-        image = Image.fromarray(image.astype('uint8'), 'RGB')   #convert numpy array ke PIL
+        image = Image.fromarray(image.astype('uint8'), 'RGB')   # 2. convert numpy array ke PIL
 
         image = img_transform(image).cuda()
 
@@ -128,32 +136,40 @@ def gen(camera):
         # import pdb; pdb.set_trace()
 
         if i%frames_to_read==0:
-            images = torch.stack(images, axis=0)
+            images = torch.stack(images, axis=0)    # nge stack frames untuk dijalankan dalam 1 batch berbentuk list
             CCN.CCN.eval()
+            # model.eval() will notify all your layers that you are in eval mode, that way, 
+            # batchnorm or dropout layers will work in eval mode instead of training mode. 
+
+            # torch.no_grad() impacts the autograd engine and deactivate it. 
+            # It will reduce memory usage and speed up computations 
+            # but you won’t be able to backpropagate (which you don’t want in an eval script).
 
             with torch.no_grad():
                 density_map = CCN.CCN(images)
-                count = density_map.sum(axis=(2,3)).mean()/100.        
+                count = density_map.sum(axis=(2,3)).mean()/100.     # count the crowd prediction
+                # 100 pembagi biar bulet
             
             print(count)
 
             end = time.time()
             seconds = end - start
-            fps = frames_to_read/seconds
+            fps = frames_to_read/seconds # fps ini harus melalui prses crowd counting
             print(fps)
 
             # Write Crowd Counting Result to CSV File
             csvFile = "crowd_counting_result.csv"
             with open(csvFile, 'a') as fp:
                 wr = csv.writer(fp)
-                wr.writerow([count]) 
+                wr.writerow([count])
+                wr.writerow([fps]) 
 
         yield (b'--frame\r\n'
                b'Content-Type: image/jpeg\r\n\r\n' + frame + b'\r\n\r\n')
 
 @app.route('/video_feed')
 def video_feed():
-	return Response(gen(VideoCamera()),mimetype='multipart/x-mixed-replace; boundary=frame')
+    return Response(gen(VideoCamera()),mimetype='multipart/x-mixed-replace; boundary=frame')
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', debug=True)
